@@ -614,7 +614,7 @@
       "name": "APP_IMAGE_NAMESPACE",
       "displayName": "Namespace containing application images.",
       "description": "Namespace containing application images.",
-      "value": "mem-tools",
+      "value": "mem-mmt-tools",
       "required": true
     },
     {
