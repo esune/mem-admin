@@ -4,8 +4,8 @@ var defaultEnvConfig = require('./default');
 
 module.exports = {
   db: {
-    uri: 'mongodb://' + (process.env.MONGODB_FUNC_HOST || 'localhost') + '/' + (process.env.MONGODB_FUNC_DATABASE || 'esm-dev-func'),
-    acluri: 'mongodb://' + (process.env.MONGODB_FUNC_HOST || 'localhost') + '/esm-acl-test',
+    uri: 'mongodb://' + (process.env.MONGODB_FUNC_HOST || 'localhost') + '/' + (process.env.MONGODB_FUNC_DATABASE || 'mem-dev-func'),
+    acluri: 'mongodb://' + (process.env.MONGODB_FUNC_HOST || 'localhost') + '/mem-acl-func',
     name: process.env.MONGODB_FUNC_DATABASE || 'esm-dev-func',
     options: {
       user: process.env.MONGODB_USER || '',
