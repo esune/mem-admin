@@ -121,7 +121,7 @@
                     "port": 3000,
                     "scheme": "HTTP"
                   },
-                  "initialDelaySeconds": 10,
+                  "initialDelaySeconds": 60,
                   "periodSeconds": 3,                  
                   "successThreshold": 1,
                   "timeoutSeconds": 5
@@ -133,7 +133,7 @@
                       "port": 3000,
                       "scheme": "HTTP"
                     },
-                    "initialDelaySeconds": 10,
+                    "initialDelaySeconds": 60,
                     "periodSeconds": 3,                  
                     "successThreshold": 1,
                     "timeoutSeconds": 5
