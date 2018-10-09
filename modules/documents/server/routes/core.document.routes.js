@@ -174,6 +174,9 @@ module.exports = function (app) {
               })
             })
             .catch(function(error) {
+              // remove file from temp folder
+              fs.unlink(req.file.path);
+
               // general catch all
               return Promise.reject(error);
             });
@@ -265,6 +268,9 @@ module.exports = function (app) {
               })
             })
             .catch(function(error) {
+              // remove file from temp folder
+              fs.unlink(req.file.path);
+
               // general catch all
               return Promise.reject(error);
             });
