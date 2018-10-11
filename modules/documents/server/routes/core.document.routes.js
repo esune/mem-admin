@@ -122,7 +122,7 @@ module.exports = function (app) {
    */
   app.route ('/api/commentdocument/:project/upload')
     .all (policy ('guest'))
-    .post (Multer({storage: Multer.diskStorage()}).single('file'), // upload using multer
+    .post (Multer({storage: Multer.diskStorage({})}).single('file'), // upload using multer
       routes.setAndRun (DocumentClass, function (model, req) {
         if (req.file) {
           return MinioController.putDocument(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Project.code, req.file.originalname, req.file.path)
@@ -193,7 +193,7 @@ module.exports = function (app) {
    */
   app.route ('/api/document/:project/upload')
     .all (policy ('guest'))
-    .post (Multer({storage: Multer.diskStorage()}).single('file'), // upload using multer
+    .post (Multer({storage: Multer.diskStorage({})}).single('file'), // upload using multer
       routes.setAndRun (DocumentClass, function (model, req) {
         if (req.file) {
           return MinioController.putDocument(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Project.code, req.file.originalname, req.file.path)
