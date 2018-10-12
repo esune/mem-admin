@@ -8,8 +8,6 @@
 // =========================================================================
 var fs = require('fs');
 var Multer = require('multer');
-var os = require('os');
-var path = require('path');
 var rp = require('request-promise-native');
 
 var DocumentClass	= require ('../controllers/core.document.controller');
@@ -113,43 +111,23 @@ module.exports = function (app) {
         return res.redirect(req.Document.internalURL);
       } else {
         var fileName = req.Document.displayName;
-        var tmpFile = path.join(os.tmpdir(), fileName);
         var fileMeta;
 
         // check if the file exists in Minio
         return MinioController.statObject(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Document.internalURL)
           .then(function(objectMeta){
-            if(!objectMeta){
-              renderNotFound(req.originalUrl, res);
-            }
             fileMeta = objectMeta;
             // get the download URL
             return MinioController.getPresignedGETUrl(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Document.internalURL);
+          }, function(){
+            renderNotFound(req.originalUrl, res);
           })
           .then(function (docURL) {
-            // download file from Minio to local file system
-            return rp(docURL).pipe(fs.createWriteStream(tmpFile));
-          })
-          .then(function (wStream) {
-            // wait for the file to be available, and stream it back in the response
-            return new Promise(function(resolve){
-              wStream.on('close', function(){
-                var stream 	= fs.createReadStream(tmpFile);
-                res.setHeader('Content-Length', fileMeta.size);
-                res.setHeader('Content-Type', fileMeta.metaData['content-type']);
-                res.setHeader('Content-Disposition', 'attachment;filename="' + fileName + '"');
-                stream.pipe(res);
-                resolve();
-              })
-            });
-          })
-          .then(function(){
-            // remove tmpFile
-            fs.unlink(tmpFile);
-          })
-          .catch(function(){
-            // remove tmpFile
-            fs.unlink(tmpFile);
+            // stream file from Minio to client
+            res.setHeader('Content-Length', fileMeta.size);
+            res.setHeader('Content-Type', fileMeta.metaData['content-type']);
+            res.setHeader('Content-Disposition', 'attachment;filename="' + fileName + '"');
+            return rp(docURL).pipe(res);
           });
       }
     });
