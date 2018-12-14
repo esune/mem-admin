@@ -40,13 +40,13 @@
           <input class="form-control" id="displayName" disabled=true type="text" ng-model="user.displayName" ng-hide="readonly">
         </div>
       </div>
-      <div class="col-sm-6 col-md-3" ng-show="mode === 'edit'">
+      <div class="col-sm-6 col-md-3" ng-if="mode === 'edit'">
         <div class="form-group">
           <label class="control-label">Username</label>
           <p class="form-control-static">{{ user.username }}</p>
         </div>
       </div>
-      <div class="col-sm-6 col-md-3" ng-show="mode === 'edit'">
+      <div class="col-sm-6 col-md-3">
         <div class="form-group" x-show-errors>
           <label for="password" class="control-label">Password<em>(Minimum 6 Characters Required)</em></label>
           <input class="form-control" id="password" type="password" name="password" placeholder="Password" pattern="(.){6,}" ng-model="user.password" required/>
